@@ -4,12 +4,17 @@
 namespace openflShareExtension {
 	
 	void doShare(const char *text, const char *url, const char *subject, const char *image){
+    	NSLog(@"doShare");
         UIViewController *root = [[[UIApplication sharedApplication] keyWindow] rootViewController];
         NSString *sText = [[NSString alloc] initWithUTF8String:text];
         NSArray *itemsToShare;
         if(url != nil){
-	        NSURL *sURL = [NSURL URLWithString:[[NSString alloc] initWithUTF8String:url]];
-	        itemsToShare = @[sText,sURL];
+            NSString * urlString = [[NSString alloc] initWithUTF8String:url];
+            NSLog(urlString);
+	        NSURL *sURL = ([urlString rangeOfString:@"https://"].location == 0)
+	            ? [NSURL URLWithString:urlString]
+	            : [NSURL fileURLWithPath:urlString isDirectory:NO];
+	        itemsToShare = ([urlString rangeOfString:@"https://"].location == 0) ? @[sText,sURL] : @[sURL];
         }else{
 	        itemsToShare = @[sText];        	
         }
@@ -36,14 +41,14 @@ namespace openflShareExtension {
             }
         }
 
-        activityVC.excludedActivityTypes = @[UIActivityTypeAddToReadingList,
-                                             UIActivityTypeCopyToPasteboard,
-                                             UIActivityTypePrint,
-                                             UIActivityTypeAssignToContact,
-                                             UIActivityTypeSaveToCameraRoll,
-                                             UIActivityTypeAddToReadingList,
-                                             //UIActivityTypeMail,
-                                             UIActivityTypeAirDrop];
+//        activityVC.excludedActivityTypes = @[UIActivityTypeAddToReadingList,
+//                                             UIActivityTypeCopyToPasteboard,
+//                                             UIActivityTypePrint,
+//                                             UIActivityTypeAssignToContact,
+//                                             UIActivityTypeSaveToCameraRoll,
+//                                             UIActivityTypeAddToReadingList,
+//                                             //UIActivityTypeMail,
+//                                             UIActivityTypeAirDrop];
         [root presentViewController:activityVC animated:YES completion:nil];
     }
 
