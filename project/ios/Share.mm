@@ -3,7 +3,7 @@
 
 namespace openflShareExtension {
 	
-	void doShare(const char *text, const char *url, const char *subject, const char *image){
+	void doShare(const char *text, const char *url, const char *subject, const char *image, const char *file){
     	NSLog(@"doShare");
         UIViewController *root = [[[UIApplication sharedApplication] keyWindow] rootViewController];
         NSString *sText = [[NSString alloc] initWithUTF8String:text];
@@ -15,7 +15,11 @@ namespace openflShareExtension {
 	            ? [NSURL URLWithString:urlString]
 	            : [NSURL fileURLWithPath:urlString isDirectory:NO];
 	        itemsToShare = ([urlString rangeOfString:@"https://"].location == 0) ? @[sText,sURL] : @[sURL];
-        }else{
+        } else if (file != nil) {
+            NSString * fileString = [[NSString alloc] initWithUTF8String:file];
+            NSLog(fileString);
+	        itemsToShare = @[[NSURL fileURLWithPath:fileString isDirectory:NO]];
+        } else {
 	        itemsToShare = @[sText];        	
         }
 

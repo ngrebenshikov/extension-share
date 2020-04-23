@@ -38,8 +38,8 @@ DEFINE_PRIM(share_query, 0);
 
 #else
 
-static value share_do (value text, value url, value subject, value image) {
-	doShare(val_string(text), val_string(url), val_string(subject), val_string(image));
+static value share_do (value text, value url, value subject, value image, value file) {
+	doShare(val_string(text), val_string(url), val_string(subject), val_string(image), val_string(file));
 	return alloc_null();
 }
 DEFINE_PRIM(share_do, 4);

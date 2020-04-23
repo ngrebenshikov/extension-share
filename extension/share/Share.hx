@@ -16,12 +16,12 @@ class Share {
 
 	#if android
 		#if (openfl < "4.0.0")
-		private static var __share : String->String->String->String->String->Void=openfl.utils.JNI.createStaticMethod("shareex/ShareEx", "share", "(Ljava/lang/String;Ljava/lang/String;Ljava/lang/String;Ljava/lang/String;Ljava/lang/String;)V");
+		private static var __share : String->String->String->String->String->String->String->Void=openfl.utils.JNI.createStaticMethod("shareex/ShareEx", "share", "(Ljava/lang/String;Ljava/lang/String;Ljava/lang/String;Ljava/lang/String;Ljava/lang/String;Ljava/lang/String;Ljava/lang/String;)V");
 		#else
-		private static var __share : String->String->String->String->String->Void=lime.system.JNI.createStaticMethod("shareex/ShareEx", "share", "(Ljava/lang/String;Ljava/lang/String;Ljava/lang/String;Ljava/lang/String;Ljava/lang/String;)V");
+		private static var __share : String->String->String->String->String->String->String->Void=lime.system.JNI.createStaticMethod("shareex/ShareEx", "share", "(Ljava/lang/String;Ljava/lang/String;Ljava/lang/String;Ljava/lang/String;Ljava/lang/String;Ljava/lang/String;Ljava/lang/String;)V");
 		#end
 	#elseif ios
-	private static var __share : String->String->String->String->Void=cpp.Lib.load("openflShareExtension","share_do",4);
+	private static var __share : String->String->String->String->String->Void=cpp.Lib.load("openflShareExtension","share_do",5);
 	#elseif blackberry
 	private static var __share : String->String->Void=cpp.Lib.load("openflShareExtension","share_do",2);
 	private static var __query : Void->Array<ShareQueryResult>=cpp.Lib.load("openflShareExtension","share_query",0);
@@ -113,7 +113,7 @@ class Share {
 
 	///////////////////////////////////////////////////////////////////////////
 
-	public static function share(text:String, subject:String=null, image:String='', html:String='', email:String='', url:String=null, socialNetwork:String=null, fallback:String->Void=null, bdm:BitmapData = null){
+	public static function share(text:String="", subject:String=null, image:String='', html:String='', email:String='', url:String=null, socialNetwork:String=null, fallback:String->Void=null, bdm:BitmapData = null, file:String="", fileType:String=""){
 		if(url==null) url=defaultURL;
 		if(subject==null) subject=defaultSubject;
 		if(socialNetwork==null) socialNetwork=defaultSocialNetwork;
@@ -134,9 +134,9 @@ class Share {
 		#end
 
 		#if android
-			__share(text+(cleanUrl!='' ? ' '+cleanUrl : ''),subject, html, email, sharedImagePath);
+			__share(text+(cleanUrl!='' ? ' '+cleanUrl : ''),subject, html, email, sharedImagePath, file, fileType);
 		#elseif ios
-			__share(text,url==''?null:url,subject==''?null:subject, sharedImagePath);
+			__share(text,url==''?null:url,subject==''?null:subject, sharedImagePath, file);
 		#elseif blackberry
 			flash.Lib.current.stage.addChild(new BBShareDialog(query(), text+(cleanUrl!='' ? ' '+cleanUrl : '')));
 		#else
