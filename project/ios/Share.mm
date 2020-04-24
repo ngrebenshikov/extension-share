@@ -8,18 +8,22 @@ namespace openflShareExtension {
         UIViewController *root = [[[UIApplication sharedApplication] keyWindow] rootViewController];
         NSString *sText = [[NSString alloc] initWithUTF8String:text];
         NSArray *itemsToShare;
-        if(url != nil){
+        if(url != nil && strlen(url) > 0) {
             NSString * urlString = [[NSString alloc] initWithUTF8String:url];
+            NSLog(@"URL:");
             NSLog(urlString);
 	        NSURL *sURL = ([urlString rangeOfString:@"https://"].location == 0)
 	            ? [NSURL URLWithString:urlString]
 	            : [NSURL fileURLWithPath:urlString isDirectory:NO];
 	        itemsToShare = ([urlString rangeOfString:@"https://"].location == 0) ? @[sText,sURL] : @[sURL];
-        } else if (file != nil) {
+        } else if (file != nil && strlen(file) > 0) {
             NSString * fileString = [[NSString alloc] initWithUTF8String:file];
+            NSLog(@"FILE:");
             NSLog(fileString);
 	        itemsToShare = @[[NSURL fileURLWithPath:fileString isDirectory:NO]];
         } else {
+            NSLog(@"TEXT:");
+            NSLog(sText);
 	        itemsToShare = @[sText];        	
         }
 

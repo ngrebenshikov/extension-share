@@ -114,7 +114,16 @@ class Share {
 	///////////////////////////////////////////////////////////////////////////
 
 	public static function share(text:String="", subject:String=null, image:String='', html:String='', email:String='', url:String=null, socialNetwork:String=null, fallback:String->Void=null, bdm:BitmapData = null, file:String="", fileType:String=""){
-		if(url==null) url=defaultURL;
+//		trace('share text: $text');
+//        trace('share url: $url');
+//        trace('share subject: $subject');
+//        trace('share image: $image');
+//        trace('share html: $html');
+//        trace('share email: $email');
+//        trace('share socialNetwork: $socialNetwork');
+//        trace('share file: $file');
+//        trace('share fileType: $fileType');
+        if(url==null) url=defaultURL;
 		if(subject==null) subject=defaultSubject;
 		if(socialNetwork==null) socialNetwork=defaultSocialNetwork;
 		if(fallback==null) fallback=defaultFallback;
