@@ -5,6 +5,8 @@ import android.net.Uri;
 import android.util.Log;
 import org.haxe.extension.Extension;
 import java.io.File;
+import android.content.pm.ResolveInfo;
+import android.content.pm.PackageManager;
 
 public class ShareEx {
 
@@ -34,7 +36,16 @@ public class ShareEx {
 					Extension.mainContext.getApplicationContext().getPackageName(),
 					uri,
 					Intent.FLAG_GRANT_READ_URI_PERMISSION);
+
+			java.util.List<ResolveInfo> resInfoList = Extension.mainContext.getPackageManager().queryIntentActivities(sendIntent, PackageManager.MATCH_DEFAULT_ONLY);
+			for (ResolveInfo resolveInfo : resInfoList) {
+				String packageName = resolveInfo.activityInfo.packageName;
+				Log.d("haxe-share", "Granted to " + packageName);
+				Extension.mainContext.grantUriPermission(packageName, uri, Intent.FLAG_GRANT_READ_URI_PERMISSION);
+			}
+
 			Log.d("haxe-share", uri.toString());
+
 			sendIntent.putExtra(Intent.EXTRA_STREAM, uri);
 			sendIntent.addFlags(Intent.FLAG_GRANT_READ_URI_PERMISSION);
 		}
