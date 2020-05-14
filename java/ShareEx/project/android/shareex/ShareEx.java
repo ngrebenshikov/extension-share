@@ -57,6 +57,7 @@ public class ShareEx {
 
 		Intent chooserIntent = Intent.createChooser(sendIntent, null);
 		chooserIntent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+		chooserIntent.addFlags(Intent.FLAG_GRANT_READ_URI_PERMISSION);
 
 		Extension.mainActivity.getApplicationContext().startActivity(chooserIntent);
 	}
